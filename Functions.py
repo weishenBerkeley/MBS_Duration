@@ -12,7 +12,7 @@ def Vasicek_simulation(a, b, r0, sigma, n = 1000):
     dt = 1 / 252
     for i in range(n):
         rand = np.random.normal()
-        dr = a * (b - rate_path[-1]) * dt + sigma * np.sqrt(dt * rate_path[-1]) * rand
+        dr = a * (b - rate_path[-1]) * dt + sigma * np.sqrt(np.abs(dt * rate_path[-1])) * rand
         rate_path.append(rate_path[-1] + dr)
     return np.array(rate_path)
 
@@ -34,5 +34,10 @@ def bond_duration(r, alpha, beta = 100):
     :param beta:
     :return:
     """
-    return alpha * np.multiply(r, bond_price(r, alpha, beta))
+    return alpha * np.multiply(r, bond_price(r, alpha, beta)) / beta
+
+def bond_price_real(r, alpha, noise, beta = 100):
+    theory_price = bond_price(r, alpha, beta)
+    price = theory_price + np.multiply(noise, np.random.normal(0,1,len(noise)))
+    return price
 
