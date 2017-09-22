@@ -46,7 +46,7 @@ if __name__ == "__main__":
     theory_duration = fn.bond_duration(path, alpha)
     trancated_D = theory_duration[1:]
 
-    plt.plot(trancated_D, label="Theory duration")
+    plt.plot(trancated_D[window:], label="Theory duration")
     plt.plot(D, label = "Emprical duration")
     plt.legend()
     plt.show()
